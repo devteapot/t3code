@@ -273,6 +273,26 @@ export const GrokIcon: Icon = ({ className, ...props }) => (
   </svg>
 );
 
+export const MistralVibeIcon: Icon = ({ className, ...props }) => (
+  <svg
+    {...props}
+    viewBox="0 0 28 28"
+    fill="none"
+    className={cn("fill-[#0F0F0F] dark:fill-[#F5F5F5]", className)}
+  >
+    <path d="M8.8147 5.35803H5.35791V8.46914H8.8147V5.35803Z" />
+    <path d="M22.6419 5.35803H19.1851V8.46914H22.6419V5.35803Z" />
+    <path d="M15.7283 15.7284H12.2715V18.8395H15.7283V15.7284Z" />
+    <path d="M8.8147 15.7284H5.35791V18.8395H8.8147V15.7284Z" />
+    <path d="M22.6419 15.7284H19.1851V18.8395H22.6419V15.7284Z" />
+    <path d="M12.2715 8.81482H5.35791V11.9259H12.2715V8.81482Z" />
+    <path d="M12.2718 19.1852H1.90137V22.2963H12.2718V19.1852Z" />
+    <path d="M26.0989 19.1852H15.7285V22.2963H26.0989V19.1852Z" />
+    <path d="M22.6419 12.2716H5.35791V15.3827H22.6419V12.2716Z" />
+    <path d="M22.6421 8.81482H15.7285V11.9259H22.6421V8.81482Z" />
+  </svg>
+);
+
 export const TraeIcon: Icon = (props) => (
   <svg {...props} viewBox="0 0 24 24" fill="currentColor">
     {/* Back rectangle: left strip + bottom strip drawn separately — empty bottom-left corner is the gap between them */}

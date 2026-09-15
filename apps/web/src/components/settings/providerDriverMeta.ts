@@ -4,6 +4,7 @@ import {
   CodexSettings,
   CursorSettings,
   GrokSettings,
+  MistralVibeSettings,
   OpenCodeSettings,
   ProviderDriverKind,
 } from "@t3tools/contracts";
@@ -14,6 +15,7 @@ import {
   CursorIcon,
   GrokIcon,
   type Icon,
+  MistralVibeIcon,
   OpenAI,
   OpenCodeIcon,
 } from "../Icons";
@@ -69,6 +71,13 @@ const PROVIDER_CLIENT_DEFINITIONS: readonly ProviderClientDefinition[] = [
     icon: GrokIcon,
     badgeLabel: "Early Access",
     settingsSchema: GrokSettings,
+  },
+  {
+    value: ProviderDriverKind.make("mistral-vibe"),
+    label: "Mistral Vibe",
+    icon: MistralVibeIcon,
+    badgeLabel: "Early Access",
+    settingsSchema: MistralVibeSettings,
   },
   {
     value: ProviderDriverKind.make("opencode"),
