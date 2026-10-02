@@ -95,6 +95,23 @@ function normalizeModels(
   return models;
 }
 
+/**
+ * Client capabilities for setup runtimes (probe, sign-in, session management).
+ * Agents built before ACP standardized `auth.terminal`, such as Mistral Vibe,
+ * only advertise terminal auth methods for the legacy `_meta["terminal-auth"]` flag.
+ */
+export function acpRegistrySetupClientCapabilities(input: {
+  readonly terminalAuth: boolean;
+}): EffectAcpSchema.InitializeRequest["clientCapabilities"] {
+  return {
+    auth: { terminal: input.terminalAuth },
+    elicitation: { url: {} },
+    fs: { readTextFile: false, writeTextFile: false },
+    terminal: false,
+    ...(input.terminalAuth ? { _meta: { "terminal-auth": true } } : {}),
+  };
+}
+
 /** Agent spawn recipe used to compose runnable terminal-auth command lines. */
 export interface AcpRegistryAuthSpawnContext {
   readonly command: string;
@@ -336,12 +353,9 @@ export const probeAcpRegistryConfiguration = Effect.fn("AcpRegistryProbe.probeCo
         AcpSessionRuntime.layer({
           spawn: resolved.spawn,
           cwd: input.cwd,
-          clientCapabilities: {
-            auth: { terminal: Option.isSome(pty) },
-            elicitation: { url: {} },
-            fs: { readTextFile: false, writeTextFile: false },
-            terminal: false,
-          },
+          clientCapabilities: acpRegistrySetupClientCapabilities({
+            terminalAuth: Option.isSome(pty),
+          }),
           clientInfo: { name: "t3-code-provider-test", version: "0.0.0" },
           authenticateOnAuthRequired: false,
           onInitialized: (initializeResult) =>
@@ -469,12 +483,7 @@ const makeAcpRegistryManagementRuntime = Effect.fn("AcpRegistryProbe.makeManagem
       AcpSessionRuntime.layer({
         spawn: resolved.spawn,
         cwd: input.cwd,
-        clientCapabilities: {
-          auth: { terminal: false },
-          elicitation: { url: {} },
-          fs: { readTextFile: false, writeTextFile: false },
-          terminal: false,
-        },
+        clientCapabilities: acpRegistrySetupClientCapabilities({ terminalAuth: false }),
         clientInfo: { name: "t3-code-session-manager", version: "0.0.0" },
         authenticateOnAuthRequired: false,
         ...(input.settings.authMethodId ? { authMethodId: input.settings.authMethodId } : {}),
